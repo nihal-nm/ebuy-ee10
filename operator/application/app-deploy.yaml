@@ -1,0 +1,31 @@
+apiVersion: openliberty.io/v1beta1
+kind: OpenLibertyApplication
+metadata:
+  name: ebuy6
+  namespace: ebuy-test
+spec:
+  replicas: 1
+  resourceConstraints:
+    limits:
+      cpu: 500m
+      memory: 256Mi
+    requests:
+      cpu: 200m
+      memory: 128Mi
+  applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/svtapps/nest-ebuy-ol21007
+  expose: true
+  env:
+    - name: EBUY_serverName_1
+      value: 'barbara-ebuy-db2-1.fyre.ibm.com'
+    - name: EBUY_databaseName_1
+      value: EBUY
+    - name: EBUY_portNumber_1
+      value: "50000"
+    - name: dmgr_ebuyUser_user_1
+      value: db2inst1
+    - name: dmgr_ebuyUser_password_1
+      valueFrom:
+        secretKeyRef:
+          name: db-credential
+          key: dbpw
+  pullPolicy: Always 

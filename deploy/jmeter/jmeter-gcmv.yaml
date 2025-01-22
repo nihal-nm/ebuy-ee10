@@ -1,0 +1,63 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: log-reader
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+  - apiGroups: ["route.openshift.io"]
+    resources: ["routes"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-logs
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+subjects:
+- kind: ServiceAccount
+  name: jmeter-rb
+  apiGroup: ""
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: log-reader
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jmeter-rb
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+---
+# !!! The values in this security context should be modified for specific cluster needs 
+kind: SecurityContextConstraints
+apiVersion: security.openshift.io/v1
+metadata:
+  name: jmeter-scc
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+allowPrivilegedContainer: true
+allowHostIPC: true
+allowHostNetwork: true
+allowHostPID: true
+allowHostPorts: true
+allowHostDirVolumePlugin: true
+readOnlyRootFilesystem: false
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+fsGroup:
+  type: RunAsAny
+supplementalGroups:
+  type: RunAsAny
+groups:
+- system:serviceaccounts

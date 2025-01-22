@@ -1,0 +1,49 @@
+apiVersion: liberty.websphere.ibm.com/v1
+kind: WebSphereLibertyApplication
+metadata:
+  name: ebuy-dbos
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  license:
+    accept: true
+  replicas: 3
+  applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/ebuy/ebuy-ee10:latest
+  expose: true
+  pullPolicy: Always
+  resources:
+    limits:
+      cpu: 400m
+      memory: 400Mi
+    requests:
+      cpu: 400m
+      memory: 400Mi
+  probes:
+    readiness:
+      failureThreshold: 12
+      httpGet:
+        path: /health/ready
+        port: 9080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    liveness:
+      failureThreshold: 12
+      httpGet:
+        path: /health/live
+        port: 9080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+  env:
+    - name: DBHost
+      value: 'ebuy-db2'
+    - name: DBName
+      value: EBUY
+    - name: DBPort
+      value: "50000"
+    - name: DBUser
+      value: db2inst1
+    - name: DBPass
+      valueFrom:
+        secretKeyRef:
+          name: db-credential
+          key: dbpw

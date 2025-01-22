@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.ibm.ws.svt.eb.eBuy-ee10</groupId>
+    <artifactId>eBuy-ee10</artifactId>
+    <version>1.0-SNAPSHOT</version>
+	</parent>
+
+  <artifactId>ebuy</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>ear</packaging>
+
+  <name>ebuy</name>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>2.10</version>
+				<configuration>
+					<finalName>${project.artifactId}</finalName>
+					<fileNameMapping>no-version</fileNameMapping>
+					<version>7</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+				</configuration>      
+			</plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.ibm.ws.svt.eb.eBuy-ee10</groupId>
+      <artifactId>eBuy-ejb</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+  		<type>ejb</type>
+  	</dependency>
+    <dependency>
+        <groupId>com.ibm.ws.svt.eb.eBuy-ee10</groupId>
+        <artifactId>eBuy-ext</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <type>war</type>
+    </dependency>
+    <dependency>
+        <groupId>com.ibm.ws.svt.eb.eBuy-ee10</groupId>
+        <artifactId>eBuy-web</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <type>war</type>
+    </dependency>
+
+  </dependencies>
+
+  
+</project>

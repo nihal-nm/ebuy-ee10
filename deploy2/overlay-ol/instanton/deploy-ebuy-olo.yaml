@@ -1,0 +1,70 @@
+apiVersion: apps.openliberty.io/v1
+kind: OpenLibertyApplication
+metadata:
+  name: ebuy-olk-j11-amdrh90
+  # name: ebuy-olf-j17-amdub22
+  # name: ebuy-olk-j17-amdrh90
+  # name: ebuy-olf-j11-intub22
+  labels:
+    app: ebuy
+spec:
+  applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:ol-kernel-java11-amd-rhel90
+  # applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:ol-full-java17-amd-ub22
+  # applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:ol-kernel-java17-amd-rhel90
+  # applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:ol-full-java11-intel-ub22
+  serviceAccount:
+    mountToken: true
+    name: instanton-sa
+  # storage for Day2 operations
+  # serviceability:
+    # size: 1Gi
+  expose: true
+  pullPolicy: Always
+  autoscaling:
+    maxReplicas: 5
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  resources: 
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  statefulSet: {}
+  probes:
+    readiness: {}
+    liveness:
+      failureThreshold: 5 
+      periodSeconds: 120
+      timeoutSeconds: 5
+  env:
+    #- name: CRIU_RESTORE_DISABLE_RECOVERY
+    #  value: 'false'
+    #- name: CRIU_LOG_LEVEL
+    #  value: '4'
+    - name: WLP_LOGGING_CONSOLE_FORMAT
+      value: simple
+    - name: DBHost
+      value: 'ebuy-db2'
+    - name: DBName
+      value: EBUY
+    - name: DBPort
+      value: "50000"
+    - name: DBUser
+      value: db2inst1
+    - name: DBPass
+      valueFrom:
+        secretKeyRef:
+          name: db-credential
+          key: dbpw
+  securityContext:
+    allowPrivilegeEscalation: true
+    privileged: false
+    runAsNonRoot: true
+    capabilities:
+      add:
+      - CHECKPOINT_RESTORE
+      - SETPCAP
+      drop:
+      -  ALL

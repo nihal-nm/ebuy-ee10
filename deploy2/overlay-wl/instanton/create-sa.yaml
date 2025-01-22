@@ -1,0 +1,6 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: instanton-sa
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"

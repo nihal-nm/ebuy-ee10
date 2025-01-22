@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mappings version="1.1"
+	xmlns="http://jboss.org/xml/ns/javax/validation/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping http://jboss.org/xml/ns/javax/validation/mapping/validation-mapping-1.1.xsd ">
+	<bean class="com.ibm.ebuy.entity.User">
+		<field name="username">
+			<constraint
+				annotation="javax.validation.constraints.NotNull">
+				<message>The username field must contain a value.</message>
+				<payload>
+
+				</payload>
+			</constraint>
+			<constraint annotation="javax.validation.constraints.Size">
+				<message>The username must be composed by at least 5 letters.</message>
+				<element name="min">5</element>
+			</constraint>
+			<constraint
+				annotation="javax.validation.constraints.Size">
+				<message>The username must be composed by 12 letters as maximum.</message>
+				<element name="max">12</element>
+			</constraint>
+		</field>
+		<field name="password">
+			<constraint
+				annotation="javax.validation.constraints.NotNull">
+				<message>
+					The password field must contain a value.
+				</message>
+			</constraint>
+			<constraint annotation="javax.validation.constraints.Size">
+				<message>The password must be composed by at least 4 letters.</message>
+				<element name="min">4</element>
+			</constraint>
+			<constraint
+				annotation="javax.validation.constraints.Size">
+				<message>The password must be composed by 20 letters as maximum.</message>
+				<element name="max">20</element>
+			</constraint>
+		</field>
+		<field name="salutation">
+			<constraint
+				annotation="javax.validation.constraints.Null">
+				<message>The salutation field must be null.</message>
+			</constraint>
+		</field>
+	</bean>
+</constraint-mappings>
+

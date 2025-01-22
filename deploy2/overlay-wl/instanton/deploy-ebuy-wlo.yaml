@@ -1,0 +1,75 @@
+apiVersion: liberty.websphere.ibm.com/v1
+kind: WebSphereLibertyApplication
+metadata:
+  name: ebuy-wlk-j17-amdrh90
+  # name: ebuy-wlf-j11-amdub22
+  # name: ebuy-wlk-j11-intub22
+  # name: ebuy-wlf-j17-intub22
+  labels:
+    app: ebuy
+spec:
+  license:
+    accept: true
+  serviceAccount:
+    mountToken: true
+    name: instanton-sa
+  applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:wl-kernel-java17-amd-rhel90
+  # applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:wl-full-java11-amd-ub22
+  # applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:wl-kernel-java11-intel-ub22
+  # applicationImage: docker-na-public.artifactory.swg-devops.com/hyc-wassvt-team-image-registry-docker-local/instanton/24.0.0.1/ebuy:wl-full-java17-intel-ub22
+  expose: true
+  pullPolicy: Always
+  autoscaling:
+    maxReplicas: 5
+    minReplicas: 1
+    targetCPUUtilizationPercentage: 80
+  #semeruCloudCompiler:
+  #  enable: true
+  #  replicas: 1
+  # storage for Day2 operations
+  #serviceability:
+  #  size: 1Gi
+  resources: 
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  statefulSet: {}
+  probes:
+    readiness: {}
+    liveness:
+      failureThreshold: 5 
+      periodSeconds: 120
+      timeoutSeconds: 5
+  env:
+    #- name: CRIU_RESTORE_DISABLE_RECOVERY
+    #  value: 'false'
+    #- name: CRIU_LOG_LEVEL
+    #  value: '4'
+    - name: WLP_LOGGING_CONSOLE_FORMAT
+      value: simple
+    - name: DBHost
+      value: 'ebuy-db2'
+    - name: DBName
+      value: EBUY
+    - name: DBPort
+      value: "50000"
+    - name: DBUser
+      value: db2inst1
+    - name: DBPass
+      valueFrom:
+        secretKeyRef:
+          name: db-credential
+          key: dbpw
+  securityContext:
+    allowPrivilegeEscalation: true
+    privileged: false
+    runAsNonRoot: true
+    capabilities:
+      add:
+      - CHECKPOINT_RESTORE
+      - SETPCAP
+      drop:
+      - ALL

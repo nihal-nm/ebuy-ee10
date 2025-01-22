@@ -1,0 +1,86 @@
+BODY
+{
+    BACKGROUND-COLOR: #FFFFFF;
+    COLOR: #333366;
+}
+
+.menu {
+    FONT-FAMILY: 'Verdana';
+    FONT-SIZE: .8em
+    }
+
+.menu_small {
+    FONT-FAMILY: 'Verdana';
+    FONT-SIZE: .6em
+}
+    
+.error {
+ FONT-SIZE: 1em;
+ COLOR: #CC33CC;
+font-weight: bold
+}
+
+.success {
+ FONT-SIZE: 1em;
+ COLOR: blue;
+ font-weight: bold
+}
+
+.inbox {
+ FONT-SIZE: .8em;
+ COLOR: white;
+ FONT-FAMILY: 'Verdana'
+}
+
+H1
+{
+    COLOR: #6666CC;
+    FONT-FAMILY: 'Times New Roman';
+    TEXT-TRANSFORM: capitalize
+}
+H2
+{
+    COLOR: #6666CC;
+    FONT-FAMILY: 'Times New Roman';
+    TEXT-TRANSFORM: capitalize
+}
+H3
+{
+    COLOR: #6666CC;
+    FONT-FAMILY: 'Times New Roman';
+    TEXT-TRANSFORM: capitalize
+}
+
+H4
+{
+    COLOR: #6666CC;
+    FONT-FAMILY: 'Times New Roman';
+    TEXT-TRANSFORM: capitalize
+}
+
+H5
+{
+    COLOR: #6666CC;
+    FONT-FAMILY: 'Times New Roman';
+    TEXT-TRANSFORM: capitalize
+}
+H6
+{
+    COLOR: #6666CC;
+    FONT-FAMILY: 'Times New Roman';
+    TEXT-TRANSFORM: capitalize
+}
+TH {
+ color: #6060cc
+}
+
+input, textarea { 
+  font-family: verdana, arial, sans-serif;
+  border: 1px solid;
+  font-size: 80%;
+  margin: 2px;
+}
+
+input.main {
+  width: 200
+}

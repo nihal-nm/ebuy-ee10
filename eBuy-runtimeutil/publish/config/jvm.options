@@ -1,0 +1,10 @@
+# Name this file jvm.options and place in the same folder as the server.xml.
+# Properties are migrated from server node3/appdc1_0_node3_3.
+
+# The following non-standard JVM options were detected but might not be applicable to your WebSphere Liberty Application Server JVM. Before you enable the JVM options, make sure that they are valid for the JVM and are properly tuned for this WebSphere Liberty application.
+#  -Xmx512m
+
+-verbose:gc
+-Xdump:heap
+-Xaggressive
+-Xverbosegclog:/logs/verbosegc.log,200,10000

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ibm-metadata>
+  <annotated-classes name="com.ibm.ebuy.servlet.EBuyActionListener"/>
+  <annotated-classes name="com.ibm.ebuy.management.StressUserServlet"/>
+  <annotated-classes name="com.ibm.ebuy.servlet.BookServlet"/>
+  <annotated-classes name="com.ibm.ebuy.servlet.LoginServlet"/>
+  <annotated-classes name="com.ibm.ebuy.servlet.CartServlet"/>
+  <annotated-classes name="com.ibm.ebuy.servlet.RegisterServlet"/>
+  <annotated-classes name="com.ibm.ebuy.servlet.LoginFilter"/>
+  <annotated-classes name="com.ibm.ebuy.servlet.PayServlet"/>
+</ibm-metadata>

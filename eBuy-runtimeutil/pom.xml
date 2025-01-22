@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ibm.ws.svt.eb.eBuy-ee10</groupId>
+		<artifactId>eBuy-ee10</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>eBuy-runtimeutil</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>liberty-assembly</packaging>
+	<name>eBuy-runtimeutil</name>
+	<description>eBuy runtime utility project to deploy application on local workstation using liberty maven plugin</description>
+
+	<properties>
+		<!--<liberty.install.dir>C:\MyData\OpenLibertyInstalls\wlp</liberty.install.dir> -->
+		<liberty.install.dir>C:\MyData\eBuy\liberty\wlp</liberty.install.dir>
+	</properties>
+
+	<pluginRepositories>
+		<!-- Configure Sonatype OSS Maven snapshots repository (for liberty-maven-plugin 
+			V2.0-SNAPSHOT) -->
+		<pluginRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.ibm.ws.svt.eb.eBuy-ee10</groupId>
+			<artifactId>ebuy</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<type>ear</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Enable liberty-maven-plugin -->
+			<plugin>
+				<groupId>io.openliberty.tools</groupId>
+				<artifactId>liberty-maven-plugin</artifactId>
+				<version>3.7.1</version>
+				<extensions>true</extensions>
+				<!-- Specify configuration, executions for liberty-maven-plugin -->
+
+				<configuration>
+					<copyDependencies>
+						<dependency>
+							<groupId>com.ibm.db2</groupId>
+							<artifactId>jcc</artifactId>
+							<version>11.5.4.0</version>
+						</dependency>
+					</copyDependencies>
+					<serverName>eBuyLibertyServer</serverName>
+					<runtimeArtifact>
+						<groupId>com.ibm.websphere.appserver.runtime</groupId>
+						<artifactId>wlp-jakartaee9</artifactId>
+						<!--<version>22.0.0.3</version> -->
+						<type>zip</type>
+					</runtimeArtifact>
+					<!--<installDirectory>${liberty.install.dir}</installDirectory> -->
+					<appsDirectory>apps</appsDirectory>
+					<stripVersion>true</stripVersion>
+					<!--<installDirectory>${project.build.directory}</installDirectory> -->
+					<serverXmlFile>publish/config/server.xml</serverXmlFile>
+					<deployPackages>dependencies</deployPackages>
+					<!-- <jvmOptionsFile>publish/config/jvm.options</jvmOptionsFile> -->
+					<!-- <configDirectory>publish/config</configDirectory> -->
+					<skipTestServer>true</skipTestServer>
+					<!-- <runtimeInstallDirectory>${project.build.directory}</runtimeInstallDirectory> -->
+					<looseApplication>true</looseApplication>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-datasource</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/db2jars</outputDirectory>
+							<!--<outputDirectory>${liberty.install.dir}/usr/shared/resources/db2drivers</outputDirectory> -->
+							<resources>
+								<resource>
+									<directory>publish/db2jars</directory>
+									<includes>
+										<include>*.jar</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

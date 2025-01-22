@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ebuy-db2
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  labels:
+    app: ebuy-db2
+spec:
+  ports:
+    - name: 50000-tcp
+      protocol: TCP
+      port: 50000
+      targetPort: 50000
+  selector:
+    app: ebuy-db2
+    deploymentconfig: ebuy-db2
+  type: ClusterIP
+  sessionAffinity: None
+status:
+  loadBalancer: {}
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: ebuy-db2
+  labels:
+    app: ebuy-db2
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  to:
+    kind: Service
+    name: ebuy-db2
+    weight: 100
+  port:
+    targetPort: 50000
+  wildcardPolicy: None
